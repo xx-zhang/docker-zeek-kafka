@@ -1,0 +1,17 @@
+version: '3'
+services:
+  zeek-eth0:
+    image: registry.cn-beijing.aliyuncs.com/actanble/zeek-kafka:3.2.4
+    container_name: zeek-eth0
+    environment:
+      - ZEEK_INTERFACE=ens192
+      - ZEEK_NODE_NAME=pardis
+      - KAFKA_BOOTSTRAP_SERVER=10.27.106.188:9092
+    volumes:
+      #- ./publish-community_id/:/usr/local/zeek/share/zeek/site/scripts/publish-community_id/
+      - ./logs:/logs
+    cap_add:
+      - NET_RAW
+    network_mode: "host"
+    command: -i ens192 local "Site::local_nets += { 10.0.0.0/8,192.168.0.0/16,172.16.0.0/12 }"
+
